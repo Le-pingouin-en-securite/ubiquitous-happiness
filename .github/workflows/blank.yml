@@ -1,0 +1,89 @@
+.devcontainer # - nombre: Configurar Java JDK
+  usos: acciones/setup-java@v3.13.0
+  con:
+    # La versión de Java a configurar. Toma una versión completa o parcial de Java. Vea ejemplos de sintaxis admitidas en el archivo README
+    versión java: # opcional
+    # La ruta al archivo `.java-version`. Vea ejemplos de sintaxis admitidas en el archivo README
+    archivo-versión-java: # opcional
+    # Distribución de Java. Vea la lista de distribuciones compatibles en el archivo README
+    distribución:
+    # El tipo de paquete (jdk, jre, jdk+fx, jre+fx)
+    paquete java: # opcional, el valor predeterminado es jdk
+    # La arquitectura del paquete (por defecto es la arquitectura del ejecutor de acciones)
+    arquitectura: # opcional
+    # Ruta hacia donde se encuentra el JDK comprimido
+    Archivo jdk: # opcional
+    # Establezca esta opción si desea que la acción busque la última versión disponible que satisfaga la especificación de versión
+    comprobar lo último: # opcional
+    # ID del repositorio de DistributionManagement en el archivo pom.xml. El valor predeterminado es `github`
+    ID del servidor: # opcional, el valor predeterminado es github
+    # Nombre de la variable de entorno para el nombre de usuario para la autenticación en el repositorio de Apache Maven. El valor predeterminado es $GITHUB_ACTOR
+    nombre de usuario del servidor: # opcional, el valor predeterminado es GITHUB_ACTOR
+    # Nombre de la variable de entorno para la contraseña o token para la autenticación en el repositorio de Apache Maven. El valor predeterminado es $GITHUB_TOKEN
+    contraseña del servidor: # opcional, el valor predeterminado es GITHUB_TOKEN
+    # Ruta donde se escribirá el archivo settings.xml. El valor predeterminado es ~/.m2.
+    ruta-configuración: # opcional
+    # Sobrescriba el archivo settings.xml si existe. El valor predeterminado es "verdadero".
+    configuración de sobrescritura: # opcional, el valor predeterminado es verdadero
+    # Clave privada GPG para importar. El valor predeterminado es una cadena vacía.
+    gpg-clave-privada: # opcional
+    # Nombre de la variable de entorno para la frase de contraseña de la clave privada GPG. El valor predeterminado es $GPG_PASSPHRASE.
+    frase de contraseña gpg: # opcional
+    # Nombre de la plataforma de compilación para almacenar en caché las dependencias. Puede ser "maven", "gradle" o "sbt".
+    caché: # opcional
+    # Solución alternativa para pasar el estado del trabajo al paso de publicación del trabajo. Esta variable no está diseñada para configuración manual.
+    estado del trabajo: # opcional, el valor predeterminado es ${{ job.status }}
+    # El token utilizado para autenticarse al recuperar manifiestos de versión alojados en github.com, como para Microsoft Build de OpenJDK. Al ejecutar esta acción en github.com, el valor predeterminado es suficiente. Cuando se ejecuta en GHES, puede pasar un token de acceso personal para github.com si experimenta una limitación de velocidad.
+    token: # opcional, el valor predeterminado es ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # Nombre del ID de Maven Toolchain si no se desea el nombre predeterminado de "${distribution}_${java-version}". Vea ejemplos de sintaxis admitidas en el archivo de uso avanzado
+    mvn-toolchain-id: # opcional
+    # Nombre del proveedor de Maven Toolchain si no se desea el nombre predeterminado de "${distribución}". Vea ejemplos de sintaxis admitidas en el archivo de uso avanzado
+    proveedor-mvn-toolchain: # opcional
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+
+                      - nombre: cargar información del corredor
+  # Puedes fijar la confirmación exacta o la versión.
+  # usos: devops-actions/load-runner-info@2722eef3f2147e230b89e4469dd664c10de13f24
+  usos: devops-actions/load-runner-info@v1.0.9
+  con:
+    # Slug de la organización a analizar.
+    organización: # Le Pingouin en Sécurité
+    # Slug del repositorio a analizar.
+    repositorio: # palmera-esponjosa
+    # Token de acceso para usar en el análisis con admin:org o con el propietario del repositorio si lo ejecuta en un repositorio
+    token de acceso: 5420
+          

@@ -1,0 +1,149 @@
+.devcontainer # For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
+name: "CodeQL"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+  schedule:
+    - cron: '44 11 * * 3'
+
+jobs:
+  analyze:
+    name: Analyze
+    # Runner size impacts CodeQL analysis time. To learn more, please see:
+    #   - https://gh.io/recommended-hardware-resources-for-running-codeql
+    #   - https://gh.io/supported-runners-and-hardware-resources
+    #   - https://gh.io/using-larger-runners
+    # Consider using larger runners for possible analysis time improvements.
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby', 'swift' ]
+        # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby', 'swift' ]
+        # Use only 'java' to analyze code written in Java, Kotlin or both
+        # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
+        # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+
+        # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+        # queries: security-extended,security-and-quality
+
+
+    # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+
+    #   If the Autobuild fails above, remove it and uncomment the following three lines.
+    #   modify them (or add more) to build your code if your project, please refer to the EXAMPLE below for guidance.
+
+    # - run: |
+    #     echo "Run, Build Application using script"
+    #     ./location_of_script_within_repo/buildscript.sh
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+
+                    - nombre: Configurar el entorno Node.js
+  usos: acciones/setup-node@v4.0.0
+  con:
+    # Establecer autenticación siempre en npmrc.
+    autenticación siempre: # opcional, el valor predeterminado es falso
+    # Versión Especificación de la versión a utilizar. Ejemplos: 12.x, 10.15.1, >=10.15.0.
+    versión-nodo: # opcional
+    # Archivo que contiene la versión Spec de la versión a utilizar. Ejemplos: .nvmrc, .node-version, .tool-versiones.
+    archivo-versión-nodo: # opcional
+    # Arquitectura de destino para que la utilice Node. Ejemplos: x86, x64. Utilizará la arquitectura del sistema de forma predeterminada.
+    arquitectura: # opcional
+    # Configure esta opción si desea que la acción busque la última versión disponible que satisfaga la especificación de versión.
+    comprobar lo último: # opcional
+    # Registro opcional para configurar para la autenticación. Configurará el registro en un archivo .npmrc y .yarnrc a nivel de proyecto, y configurará la autenticación para leer desde env.NODE_AUTH_TOKEN.
+    URL de registro: # opcional
+    # Alcance opcional para la autenticación en registros con alcance. Recurrirá al propietario del repositorio cuando se utilice el registro de paquetes de GitHub (https://npm.pkg.github.com/).
+    alcance: # opcional
+    # Se utiliza para extraer distribuciones de nodos de versiones de nodos. Dado que existe un valor predeterminado, normalmente el usuario no lo proporciona. Al ejecutar esta acción en github.com, el valor predeterminado es suficiente. Cuando se ejecuta en GHES, puede pasar un token de acceso personal para github.com si experimenta una limitación de velocidad.
+    token: # opcional, el valor predeterminado es ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # Se utiliza para especificar un administrador de paquetes para el almacenamiento en caché en el directorio predeterminado. Valores admitidos: npm, hilo, pnpm.
+    caché: # opcional
+    # Se utiliza para especificar la ruta a un archivo de dependencia: package-lock.json, Yarn.lock, etc. Admite comodines o una lista de nombres de archivos para almacenar en caché múltiples dependencias.
+    ruta-dependencia-caché: # opcional
+          
+              - nombre: Configurar Java JDK
+  usos: acciones/setup-java@v3.13.0
+  con:
+    # La versión de Java a configurar. Toma una versión completa o parcial de Java. Vea ejemplos de sintaxis admitidas en el archivo README
+    versión java: # opcional
+    # La ruta al archivo `.java-version`. Vea ejemplos de sintaxis admitidas en el archivo README
+    archivo-versión-java: # opcional
+    # Distribución de Java. Vea la lista de distribuciones compatibles en el archivo README
+    distribución:
+    # El tipo de paquete (jdk, jre, jdk+fx, jre+fx)
+    paquete java: # opcional, el valor predeterminado es jdk
+    # La arquitectura del paquete (por defecto es la arquitectura del ejecutor de acciones)
+    arquitectura: # opcional
+    # Ruta hacia donde se encuentra el JDK comprimido
+    Archivo jdk: # opcional
+    # Establezca esta opción si desea que la acción busque la última versión disponible que satisfaga la especificación de versión
+    comprobar lo último: # opcional
+    # ID del repositorio de DistributionManagement en el archivo pom.xml. El valor predeterminado es `github`
+    ID del servidor: # opcional, el valor predeterminado es github
+    # Nombre de la variable de entorno para el nombre de usuario para la autenticación en el repositorio de Apache Maven. El valor predeterminado es $GITHUB_ACTOR
+    nombre de usuario del servidor: # opcional, el valor predeterminado es GITHUB_ACTOR
+    # Nombre de la variable de entorno para la contraseña o token para la autenticación en el repositorio de Apache Maven. El valor predeterminado es $GITHUB_TOKEN
+    contraseña del servidor: # opcional, el valor predeterminado es GITHUB_TOKEN
+    # Ruta donde se escribirá el archivo settings.xml. El valor predeterminado es ~/.m2.
+    ruta-configuración: # opcional
+    # Sobrescriba el archivo settings.xml si existe. El valor predeterminado es "verdadero".
+    configuración de sobrescritura: # opcional, el valor predeterminado es verdadero
+    # Clave privada GPG para importar. El valor predeterminado es una cadena vacía.
+    gpg-clave-privada: # opcional
+    # Nombre de la variable de entorno para la frase de contraseña de la clave privada GPG. El valor predeterminado es $GPG_PASSPHRASE.
+    frase de contraseña gpg: # opcional
+    # Nombre de la plataforma de compilación para almacenar en caché las dependencias. Puede ser "maven", "gradle" o "sbt".
+    caché: # opcional
+    # Solución alternativa para pasar el estado del trabajo al paso de publicación del trabajo. Esta variable no está diseñada para configuración manual.
+    estado del trabajo: # opcional, el valor predeterminado es ${{ job.status }}
+    # El token utilizado para autenticarse al recuperar manifiestos de versión alojados en github.com, como para Microsoft Build de OpenJDK. Al ejecutar esta acción en github.com, el valor predeterminado es suficiente. Cuando se ejecuta en GHES, puede pasar un token de acceso personal para github.com si experimenta una limitación de velocidad.
+    token: # opcional, el valor predeterminado es ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # Nombre del ID de Maven Toolchain si no se desea el nombre predeterminado de "${distribution}_${java-version}". Vea ejemplos de sintaxis admitidas en el archivo de uso avanzado
+    mvn-toolchain-id: # opcional
+    # Nombre del proveedor de Maven Toolchain si no se desea el nombre predeterminado de "${distribución}". Vea ejemplos de sintaxis admitidas en el archivo de uso avanzado
+    proveedor-mvn-toolchain: # opcional 
+                
